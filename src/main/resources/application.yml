@@ -8,7 +8,44 @@ spring:
     active: local
   #
   redis:
-    host: 106.13.22.217
+    host: 172.16.31.14
     port: 6379
     password:
+    database: 19
 
+  # ========== SQLite3 数据源 ==========
+  datasource:
+    url: jdbc:sqlite:seckill.db
+    driver-class-name: org.sqlite.JDBC
+
+  jpa:
+    database-platform: com.example.demo.seckill.SQLiteDialect
+    hibernate:
+      ddl-auto: update # 根据实体自动建表（测试用）
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+# Stream 消费组名称
+seckill:
+  stream:
+    name: stream.orders
+    group: seckill_group
+    consumer: consumer_1
+  list:
+    name: seckill:orders
+
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql: TRACE
+        engine:
+          jdbc:
+            spi:
+              SqlExceptionHelper: ERROR
